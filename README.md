@@ -17,8 +17,21 @@ The **Days From Suspension Report** system processes payment logs to calculate a
 - Click (for CLI implementation)
 
 ## Installation
-Clone the repository and install dependencies using Poetry:
+### Install Poetry
+If you haven't installed Poetry yet, run:
 ```sh
+curl -sSL https://install.python-poetry.org | python3 -
+```
+Then, ensure Poetry is added to your PATH:
+```sh
+echo "export PATH=\"$HOME/.local/bin:\$PATH\"" >> ~/.bashrc
+source ~/.bashrc
+```
+
+### Clone the repository and install dependencies using Poetry:
+```sh
+git clone https://github.com/liyabonasaki/suspension-insights.git
+cd suspension-insights
 poetry install
 ```
 
