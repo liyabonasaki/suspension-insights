@@ -10,44 +10,53 @@ permissions:
   contents: read
 
 jobs:
-  build:
-
+  test:
+    name: 🧪 Run Tests
     runs-on: ubuntu-latest
 
     steps:
-    - name: 📥 Checkout repository
-      uses: actions/checkout@v4
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
 
-    - name: 🐍 Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
+      - name: 🐍 Set up Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
 
-    - name: 📦 Install Poetry
-      run: |
-        curl -sSL https://install.python-poetry.org | python3 -
-        echo "$HOME/.local/bin" >> $GITHUB_PATH
+      - name: 📦 Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-    - name: 🧱 Install dependencies with Poetry
-      run: |
-        poetry install
+      - name: 📚 Install Dependencies
+        run: |
+          poetry install
 
-    - name: 🧼 Lint with flake8
-      run: |
-        poetry run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        poetry run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      - name: 🧼 Lint with flake8
+        run: |
+          poetry run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          poetry run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-    - name: ✅ Run tests with pytest
-      run: |
-        poetry run pytest
+      - name: ✅ Run Pytest
+        run: |
+          poetry run pytest
 
-#    - name: 🐳 Log in to Docker Hub
+#  build:
+#    name: 🐳 Build & Push Docker Image
+#    runs-on: ubuntu-latest
+#    needs: test  # Run this stage only after test job passes
+#
+#    steps:
+#      - name: 📥 Checkout Code
+#        uses: actions/checkout@v4
+#
+#      - name: 🔐 Log in to Docker Hub
 #        uses: docker/login-action@v3
 #        with:
 #          username: ${{ secrets.DOCKER_USERNAME }}
 #          password: ${{ secrets.DOCKER_PASSWORD }}
 #
-#    - name: 🐋 Build and Push Docker Image
+#      - name: 🛠️ Build & Push Docker Image
 #        uses: docker/build-push-action@v5
 #        with:
 #          context: .
